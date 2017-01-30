@@ -32,9 +32,16 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+gem 'graphql'
+gem 'graphiql-rails'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug'
+  gem 'pry'
+  gem 'pry-debugger', :platform => [:ruby_19, :ruby_21]
+  gem 'pry-byebug', :platform => :ruby_20
+  gem 'awesome_print', require:'ap'
+  gem 'meta_request'
 end
 
 group :development do

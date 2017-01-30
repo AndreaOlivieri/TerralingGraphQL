@@ -12,6 +12,13 @@ module TerralingGraphQL
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
 
+    config.autoload_paths << Rails.root.join("app", "graph")
+    config.autoload_paths << Rails.root.join("app", "graph", "types")
+    config.autoload_paths << Rails.root.join("app", "graph", "types", "info")
+    config.autoload_paths << Rails.root.join("app", "graph", "types", "search")
+    config.autoload_paths << Rails.root.join("app", "graph", "types", "search", "results")
+
+
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     # config.time_zone = 'Central Time (US & Canada)'

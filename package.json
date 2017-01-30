@@ -1,0 +1,33 @@
+{
+  "name": "Terraling",
+  "description": "Terraling Project",
+  "repository": "terraling",
+  "version": "1.0.0",
+  "license": "MIT",
+  "dependencies": {
+    "babel-cli": "*",
+    "babel-core": "*",
+    "babel-loader": "*",
+    "babel-plugin-transform-class-properties": "*",
+    "babel-preset-es2015": "*",
+    "babel-preset-react": "*",
+    "babel-relay-plugin-loader": "*",
+    "graphql": "*",
+    "node-jsx": "*",
+    "react": "*",
+    "react-dom": "*",
+    "react-relay": "*",
+    "react-router": "*",
+    "react-router-relay": "*",
+    "webpack": "*",
+    "haml-jsx-loader": "*"
+  },
+  "metadata": {
+    "graphql": {
+      "schema": "./app/graph/schema.json"
+    }
+  },
+  "devDependencies": {
+    "haml-jsx-loader": "^1.0.2"
+  }
+}
