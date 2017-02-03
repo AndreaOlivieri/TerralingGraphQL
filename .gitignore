@@ -43,7 +43,5 @@ coverage/*
 public/assets
 
 node_modules
-app/assets/javascript/transpiled_react
-npm-debug.log
-
 transpiled_react.js
+npm-debug.log
