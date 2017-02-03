@@ -8,4 +8,12 @@ ViewType = GraphQL::ObjectType.define do
       "test riuscito!!"
     }
   end
+
+  field :version, hash_key: :version do
+    type types.String
+
+    resolve -> (obj, args, ctx) {
+      GraphqlUtils.post_request("version")["version"]
+    }
+  end
 end

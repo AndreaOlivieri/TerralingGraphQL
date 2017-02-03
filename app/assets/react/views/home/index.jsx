@@ -1,11 +1,23 @@
 import React from 'react';
 import Relay from 'react-relay';
 import { Link } from 'react-router';
+import Application from '../layouts/application';
 
 class ReactComponent extends React.Component {
 
-  render() {
+  componentDidMount() {
+    document.title = "Home";
+  }
 
+  render() {
+    return (
+      <Application version={this.props.view.version}>
+        {this._yield()}
+      </Application>
+    );
+  }
+
+  _yield() {
     let imgId = Math.floor((Math.random() * 11) + 1);
 
     return (~
@@ -146,7 +158,7 @@ class ReactComponent extends React.Component {
     let role;
     if (dev.role.length) {
       role = (~
-        %p.small(style={{marginTop: '-20px;'}}) ({dev.role})
+        %p.small(style={{marginTop: '-20px'}}) ({dev.role})
       ~)
     }
     return (~
@@ -174,6 +186,7 @@ export default Relay.createContainer(ReactComponent, {
     view: () => Relay.QL`
       fragment on View {
         test
+        version
       }
     `
   }

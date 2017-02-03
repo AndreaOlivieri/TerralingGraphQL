@@ -1,52 +1,17 @@
 class GraphqlSearch
 
-  require "uri"
-  require 'net/http'
-  require 'json'
+  include GraphqlUtils
 
   def initialize(args)
-    # current_user = args[:user_id] && User.find(args[:user_id])
-    # current_group = Group.find(args[:group_id])
+    url = "groups/#{args[:group_id]}/searches/get_results"
+    data = { "id" => args[:search_id],
+             "user_id" => args[:user_id],
+             "group_id" => args[:group_id],
+             "search" => JSON.parse(args[:query]),
+             "result_groups" => args[:result_groups]
+    }.to_json
 
-    # if args[:search_id].present?
-    #   search = current_group.searches.find(args[:search_id])
-    # else
-    #   search = Search.new do |s|
-    #     s.creator       = current_user
-    #     s.group         = current_group
-    #     s.query         = JSON.parse(args[:query])
-    #     #the only way to calculate a compare search is passing the result group param,
-    #     #without it compare search will calculate a wrong result.
-    #     s.result_groups = args[:result_groups]
-    #     s.offset        = args[:offset] || 0
-    #   end
-    # end
-
-    # website = 'http://localhost:3001'
-    # url = "#{website}/groups/#{args[:group_id]}/searches/get_results"
-    # uri = URI(url)
-    # req = Net::HTTP::Post.new(uri.path, initheader => {'Content-Type' =>'application/json'})
-    # req.body = {param1: 'some value', param2: 'some other value'}.to_json
-    # res = Net::HTTP.start(uri.hostname, uri.port) do |http|
-    #   http.request(req)
-    # end
-
-    website = 'http://localhost:3001'
-    uri = URI("#{website}/groups/#{args[:group_id]}/searches/get_results")
-    req = Net::HTTP::Post.new(uri.path, 'Content-Type' =>'application/json')
-    req.body = { "id" => args[:search_id],
-                 "user_id" => args[:user_id],
-                 "group_id" => args[:group_id],
-                 "search" => JSON.parse(args[:query]),
-                 "result_groups" => args[:result_groups]
-                }.to_json
-
-    res = Net::HTTP.start(uri.hostname, uri.port) do |http|
-      http.request(req)
-    end
-
-    @response = JSON.parse(res.body)
-
+    @response = GraphqlUtils.post_request(url, data)
   end
 
   def compare_response
