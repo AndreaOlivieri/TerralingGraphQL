@@ -25,8 +25,8 @@ export default class Application extends React.Component {
             %ul
         #main.container
           #messages
-            .alert.alert-danger
-            .alert.alert-success
+            .alert.alert-danger.hidden
+            .alert.alert-success.hidden
           {this.props.children}
         #footer
           %p
