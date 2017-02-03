@@ -73,19 +73,16 @@ class ReactComponent extends React.Component {
                 Anyone can use the database to perform queries.
               %p.lead
                 Linguistic researchers can put up their own data using the open-ended framework we provide.
-                Visit the list of #{link_to "public groups", groups_path} to begin searching.
-                \#{link_to 'Sign up for an account', new_user_registration_path} to get access more groups and search features.
+                Visit the list of {<Link to="groups">public groups</Link>} to begin searching.
+                {<Link to="users/sign_up">Sign up for an account</Link>} to get access more groups and search features.
               %p.lead
-                Terraling is the next generation of the #{link_to "Linguistic Explorer", "http://linguisticexplorer.org/"} project. The linguistic leads have been Chris Collins, Hilda Koopman and Richard Kayne.
+                Terraling is the next generation of the {<Link to="http://linguisticexplorer.org/">Linguistic Explorer</Link>} project. The linguistic leads have been Chris Collins, Hilda Koopman and Richard Kayne.
                 The principal developers of the original site (SSWL) were Sangeeta Vishwanath, Hiral Rajani, and Jillian
                 Kozyra.
                 The principal developers of this site have been:
               .row
                 .container
-                  - each_developer_row(3) do |row|
-                    .row
-                      -row.each do |dev|
-                        = render :partial => "contributors", :locals => dev
+                  {this._developer_rows(3)}
     ~);
   }
 
@@ -117,12 +114,65 @@ class ReactComponent extends React.Component {
     return (<p><Link to={href}>{photos[id]["title"]}, on Flickr</Link> under CC License</p>);
   }
 
+  _developer_rows(columns) {
+    let _this = this;
+    let devs = [
+      {name: "Dennis Shasha", img: "hat_dev", role: "System Architect", link: "#"},
+      {name: "Ross Kaffenberger", img: "cool_dev", role: "", link: "#"},
+      {name: "Alex Lobascio (Bosh)", img: "cool_dev", role: "", link: "#"},
+      {name: "Marco Liberati", img: "cool_dev", role: "", link: "#"},
+      {name: "Oleg Grishin", img: "dev", role: "", link: "#"},
+      {name: "Lingliang Zhang", img: "dev", role: "", link: "#"},
+      {name: "Hannan Butt", img: "dev", role: "", link: "#"},
+      {name: "Andrea Olivieri", img: "coolest_dev", role: "", link: "http://www.andrea-olivieri.com"}
+    ];
+    let devs_slices = this._array_slices(devs, columns);
+
+    return devs_slices.map(function(devs_row, row_index) {
+      let devs_row_html = devs_row.map(function(dev, column_index) {
+        let dev_key = "dev_"+row_index+"_"+column_index;
+        return _this._developer(dev, dev_key);
+      });
+
+
+      return (~
+        .row(key={"developer_row_"+row_index})
+          {devs_row_html}
+      ~);
+    });
+  }
+
+  _developer(dev, dev_key) {
+    let role;
+    if (dev.role.length) {
+      role = (~
+        %p.small(style={{marginTop: '-20px;'}}) ({dev.role})
+      ~)
+    }
+    return (~
+      .col-md-4.text-center(key={dev_key})
+        %a.developer(href={dev.link})
+          .col-md-offset-4.img-circle.about-img.dev(className={dev.img+"_img"})
+          %p.lead {dev.name}
+          {role}
+    ~);
+  }
+
+  _array_slices(a, size) {
+    var arrays = [];
+
+    while (a.length > 0)
+      arrays.push(a.splice(0, size));
+
+    return arrays;
+  }
+
 };
 
 export default Relay.createContainer(ReactComponent, {
   fragments: {
-    info: () => Relay.QL`
-      fragment on Info {
+    view: () => Relay.QL`
+      fragment on View {
         test
       }
     `

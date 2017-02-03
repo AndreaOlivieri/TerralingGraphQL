@@ -13,20 +13,6 @@
           "description": "The query root of this schema",
           "fields": [
             {
-              "name": "info",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Info",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "search",
               "description": null,
               "args": [
@@ -35,6 +21,20 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "Search",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "view",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "View",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -349,8 +349,8 @@
         },
         {
           "kind": "OBJECT",
-          "name": "Info",
-          "description": "Info type",
+          "name": "View",
+          "description": "View type",
           "fields": [
             {
               "name": "test",

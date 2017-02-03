@@ -14,7 +14,7 @@ module TerralingGraphQL
 
     config.autoload_paths << Rails.root.join("app", "graph")
     config.autoload_paths << Rails.root.join("app", "graph", "types")
-    config.autoload_paths << Rails.root.join("app", "graph", "types", "info")
+    config.autoload_paths << Rails.root.join("app", "graph", "types", "view")
     config.autoload_paths << Rails.root.join("app", "graph", "types", "search")
     config.autoload_paths << Rails.root.join("app", "graph", "types", "search", "results")
 
