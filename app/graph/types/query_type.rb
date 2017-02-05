@@ -13,8 +13,8 @@ QueryType = GraphQL::ObjectType.define do
     }
   end
 
-  field :view do
-    type ViewType
+  field :data do
+    type DataType
 
     resolve -> (obj, args, ctx) {
       {}

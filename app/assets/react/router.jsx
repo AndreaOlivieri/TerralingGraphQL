@@ -5,8 +5,8 @@ import useRelay from 'react-router-relay';
 import HomeComponent from './views/home/index.jsx';
 
 const DefaultQuery = {
-  view: () => Relay.QL`query {
-    view
+  data: () => Relay.QL`query {
+    data
   }`
 }
 

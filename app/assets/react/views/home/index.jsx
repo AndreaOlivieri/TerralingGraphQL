@@ -11,13 +11,15 @@ class ReactComponent extends React.Component {
 
   render() {
     return (
-      <Application version={this.props.view.version}>
-        {this._yield()}
+      <Application  version={this.props.data.version}
+                    group={this.props.data.group}
+                    groups={this.props.data.groups}>
+        {this._page_content()}
       </Application>
     );
   }
 
-  _yield() {
+  _page_content() {
     let imgId = Math.floor((Math.random() * 11) + 1);
 
     return (~
@@ -182,11 +184,49 @@ class ReactComponent extends React.Component {
 };
 
 export default Relay.createContainer(ReactComponent, {
+  initialVariables: {
+    group_id: 1
+  },
   fragments: {
-    view: () => Relay.QL`
-      fragment on View {
-        test
+    data: () => Relay.QL`
+      fragment on Data {
         version
+        group (group_id: $group_id) {
+          category_name
+          created_at
+          depth_maximum
+          display_style
+          example_fields
+          example_name
+          examples_lings_property_name
+          id
+          ling0_name
+          ling1_name
+          ling_fields
+          lings_property_name
+          name
+          privacy
+          property_name
+          updated_at
+        }
+        groups {
+          category_name
+          created_at
+          depth_maximum
+          display_style
+          example_fields
+          example_name
+          examples_lings_property_name
+          id
+          ling0_name
+          ling1_name
+          ling_fields
+          lings_property_name
+          name
+          privacy
+          property_name
+          updated_at
+        }
       }
     `
   }
