@@ -48,8 +48,8 @@ class ReactComponent extends React.Component {
                   %div
                     .text-center
                       %span.fa-stack.fa-8x
-                        = //icon "square", '', :class => "fa-stack-2x yellow"
-                        = //icon "database", '', :class => "fa-stack-1x fa-inverse"
+                        %i.fa.fa-square.fa-stack-2x.yellow
+                        %i.fa.fa-database.fa-stack-1x.fa-inverse
                     .caption
                       %p.lead
                         Terraling is built to host your own dataset and let you start discover new insight from your linguistic dataset!
@@ -57,8 +57,8 @@ class ReactComponent extends React.Component {
                   %div
                     .text-center
                       %span.fa-stack.fa-8x
-                        = //icon "square", '', :class => "fa-stack-2x blue"
-                        = //icon "slideshare", '', :class => "fa-stack-1x fa-inverse"
+                        %i.fa.fa-square.fa-stack-2x.blue
+                        %i.fa.fa-slideshare.fa-stack-1x.fa-inverse
                     .caption
                       %p.lead
                         Collaborate with experts to expand and study your dataset. Or simply partecipate to an existing group!
@@ -66,8 +66,8 @@ class ReactComponent extends React.Component {
                   %div
                     .text-center
                       %span.fa-stack.fa-8x
-                        = //icon "square", '', :class => "fa-stack-2x red"
-                        = //icon "search", '', :class => "fa-stack-1x fa-inverse"
+                        %i.fa.fa-square.fa-stack-2x.red
+                        %i.fa.fa-search.fa-stack-1x.fa-inverse
                     .caption
                       %p.lead
                         Do advanced searches within your dataset to discover insight in your data, download or visualize the results!
@@ -163,10 +163,11 @@ class ReactComponent extends React.Component {
         %p.small(style={{marginTop: '-20px'}}) ({dev.role})
       ~)
     }
+    let classImage = "col-md-offset-4 img-circle about-img "+dev.img+"_img";
     return (~
       .col-md-4.text-center(key={dev_key})
         %a.developer(href={dev.link})
-          .col-md-offset-4.img-circle.about-img.dev(className={dev.img+"_img"})
+          .(class={classImage})
           %p.lead {dev.name}
           {role}
     ~);

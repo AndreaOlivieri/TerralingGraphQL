@@ -18,8 +18,8 @@ export default class Application extends React.Component {
                 %span.icon-bar
               %a.navbar-brand.logo-darker.logo-font.brand-bigger(href="/") TerraLing
             #terraling-navbar-collapse.collapse.navbar-collapse
-              {this._group_nav_bar()}
-              {this._status_bar()}
+              {this._group_nav_bar_jsx()}
+              {this._status_bar_jsx()}
               %ul
         #main.container
           #messages
@@ -35,51 +35,28 @@ export default class Application extends React.Component {
     ~);
   }
 
-  _group_nav_bar(){
-    // = render :partial => 'layouts/group_nav_bar' unless Settings.in_preview
+  // = render :partial => 'layouts/group_nav_bar' unless Settings.in_preview
+  _group_nav_bar_jsx(){
     return (~
       %ul.nav.navbar-nav
     ~)
   }
 
-  _status_bar(){
-    // = render :partial => 'layouts/status_bar'
-    let bar;
+
+
+
+
+
+
+
+
+  // = render :partial => 'layouts/status_bar'
+  _status_bar_jsx(){
     if (this._user_signed_in()) {
-      let dropdown;
-
-      debugger;
-      if (this.props.group) {
-        dropdown = (~
-          .true
-        ~)
-      } else {
-        let user_icon;
-        if (this._current_user()["admin"]) {
-          user_icon = (~
-            .col-md-.nav-status
-              Site Admin
-          ~)
-        } else {
-          user_icon = (~
-            .
-              %i.fa.fa-user
-              Member
-          ~)
-        }
-
-        dropdown = (~
-          %a.compact(href="")
-            %p(style={{marginBottom: '0'}})
-              {this._current_user()["name"]}
-            {user_icon}
-        ~)
-      }
-
-      bar = (~
+      return (~
         %ul.nav.navbar-nav.pull-right.user-nav
           %li#userInfo.pull-right.dropdown.black-dropdown
-            {dropdown}
+            {this._dropdown_jsx()}
           %ul.dropdown-menu(aria-labelledby="dLabel" role="menu")
             %li
               %a(href="/groups/user")
@@ -92,19 +69,103 @@ export default class Application extends React.Component {
                 %i.fa.fa-sign-out.pull-right.fa-15x
       ~)
     } else {
-      bar = (~
+      return (~
         %ul.nav.navbar-nav.pull-right.user-nav
           %li.pull-right.buttons
             %a#sign_in.btn.btn-default(href="/users/sign_in")
               Sign in
       ~)
     }
+  }
 
+  _dropdown_jsx(){
+    let user_icon;
+    let user_icon_path = '';
+    let group = this.props.group;
 
-    return bar;
+    if (group) {
+      user_icon = this._user_icon_by_group_jsx(group);
+      user_icon_path = this._group_membership_path_if_any(group);
+    } else {
+      user_icon = this._user_icon_jsx();
+    }
+
+    return (~
+      %a.compact(href={user_icon_path})
+        %p(style={{marginBottom: '0'}})
+          {this._current_user()["name"]}
+        {user_icon}
+    ~)
+  }
+
+  _user_icon_by_group_jsx(group){
+    if(this._current_user()["admin"]){
+      return (~
+        .col-md-.nav-status
+          Site Admin
+      ~)
+    } else if (this._current_user_administrated_groups(group)) {
+      return (~
+        .col-md-.nav-status
+          %i.fa.fa-group
+            Group Admin
+      ~)
+    } else if (this._current_user_member_of(group)) {
+      let icon_expert;
+      if (this._current_user_is_expert(group)) {
+        icon_expert = (~
+          .
+            %i.fa.fa-certificate
+            Expert
+        ~)
+      } else {
+        icon_expert = (~
+          .
+            %i.fa.fa-user
+            Member
+        ~)
+      }
+      return (~
+        .col-md-.nav-status
+          {icon_expert}
+      ~)
+    }
+  }
+
+  _user_icon_jsx(){
+    if (this._current_user()["admin"]) {
+      return (~
+        .col-md-.nav-status
+          Site Admin
+      ~)
+    } else {
+      return (~
+        .
+          %i.fa.fa-user
+          Member
+      ~)
+    }
+  }
+
+  _group_membership_path_if_any(group){
+    // membership = @group.membership_for(current_user)
+    // membership.present? ? group_membership_path(@group, membership) : group_memberships_path(@group)
+    return "#"
   }
 
   _user_signed_in(){
+    return true;
+  }
+
+  _current_user_member_of(group){
+    return true;
+  }
+
+  _current_user_administrated_groups(group){
+    return false;
+  }
+
+  _current_user_is_expert(group){
     return true;
   }
 
@@ -114,7 +175,8 @@ export default class Application extends React.Component {
       admin: false,
       memberships: {
         size: 5
-      }
+      },
+      groups: [1,2]
     }
   }
 

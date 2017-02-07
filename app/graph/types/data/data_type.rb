@@ -13,7 +13,7 @@ DataType = GraphQL::ObjectType.define do
     type types.String
 
     resolve -> (obj, args, ctx) {
-      GraphqlUtils.get_request("version")
+      GraphqlUtils.get_request("graphql/version")
     }
   end
 
@@ -22,7 +22,7 @@ DataType = GraphQL::ObjectType.define do
 
     argument :group_id, types.ID
     resolve -> (obj, args, ctx) {
-      GraphqlUtils.get_request("group", {group_id: args[:group_id]})['group']
+      GraphqlUtils.get_request("graphql/group", {group_id: args[:group_id]})['group']
     }
   end
 
@@ -30,7 +30,16 @@ DataType = GraphQL::ObjectType.define do
     type GroupType.to_list_type
 
     resolve -> (obj, args, ctx) {
-      GraphqlUtils.get_request("groups").map {|x| x['group']}
+      GraphqlUtils.get_request("graphql/groups").map {|x| x['group']}
+    }
+  end
+
+  field :viewer, hash_key: :viewer do
+    type ViewerType
+
+    resolve -> (obj, args, ctx) {
+      GraphqlUtils.get_request("graphql/viewer")['user']
+      # GraphqlUtils.get_request("users/sign_in", {authenticity_token: })
     }
   end
 
