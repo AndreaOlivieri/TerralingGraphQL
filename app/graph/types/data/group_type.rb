@@ -2,6 +2,7 @@ GroupType = GraphQL::ObjectType.define do
   name "Group"
   description "Group type"
 
+  field :id, types.ID, hash_key: "id"
   field :category_name, types.String, hash_key: "category_name"
   field :created_at, types.String, hash_key: "created_at"
   field :depth_maximum, types.String, hash_key: "depth_maximum"
@@ -9,7 +10,6 @@ GroupType = GraphQL::ObjectType.define do
   field :example_fields, types.String, hash_key: "example_fields"
   field :example_name, types.String, hash_key: "example_name"
   field :examples_lings_property_name, types.String, hash_key: "examples_lings_property_name"
-  field :id, types.String, hash_key: "id"
   field :ling0_name, types.String, hash_key: "ling0_name"
   field :ling1_name, types.String, hash_key: "ling1_name"
   field :ling_fields, types.String, hash_key: "ling_fields"

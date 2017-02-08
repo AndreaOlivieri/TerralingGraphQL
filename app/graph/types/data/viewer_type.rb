@@ -2,7 +2,8 @@ ViewerType = GraphQL::ObjectType.define do
   name "Viewer"
   description "Viewer type"
 
-  field :id, types.Int, hash_key: "id"
+  field :id, types.ID, hash_key: "id"
+  field :name, types.String, hash_key: "name"
   field :email, types.String, hash_key: "email"
   field :encrypted_password, types.String, hash_key: "encrypted_password"
   field :password_salt, types.String, hash_key: "password_salt"
@@ -16,7 +17,6 @@ ViewerType = GraphQL::ObjectType.define do
   field :last_sign_in_ip, types.String, hash_key: "last_sign_in_ip"
   field :created_at, types.String, hash_key: "created_at"
   field :updated_at, types.String, hash_key: "updated_at"
-  field :name, types.String, hash_key: "name"
   field :access_level, types.String, hash_key: "access_level"
   field :topics_count, types.Int, hash_key: "topics_count"
   field :posts_count, types.Int, hash_key: "posts_count"

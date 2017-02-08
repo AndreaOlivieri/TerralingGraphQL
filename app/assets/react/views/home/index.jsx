@@ -192,41 +192,14 @@ export default Relay.createContainer(ReactComponent, {
     data: () => Relay.QL`
       fragment on Data {
         version
-        group (group_id: $group_id) {
-          category_name
-          created_at
-          depth_maximum
-          display_style
-          example_fields
-          example_name
-          examples_lings_property_name
-          id
-          ling0_name
-          ling1_name
-          ling_fields
-          lings_property_name
+        group(group_id: $group_id) {
           name
-          privacy
-          property_name
-          updated_at
         }
-        groups {
-          category_name
-          created_at
-          depth_maximum
-          display_style
-          example_fields
-          example_name
-          examples_lings_property_name
-          id
-          ling0_name
-          ling1_name
-          ling_fields
-          lings_property_name
+        viewer{
           name
-          privacy
-          property_name
-          updated_at
+          groups{
+            name
+          }
         }
       }
     `

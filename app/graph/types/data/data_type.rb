@@ -39,7 +39,6 @@ DataType = GraphQL::ObjectType.define do
 
     resolve -> (obj, args, ctx) {
       GraphqlUtils.get_request("graphql/viewer")['user']
-      # GraphqlUtils.get_request("users/sign_in", {authenticity_token: })
     }
   end
 
