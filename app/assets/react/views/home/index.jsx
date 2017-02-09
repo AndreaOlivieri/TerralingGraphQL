@@ -196,7 +196,7 @@ var HomeContainer = Relay.createContainer(HomeComponent, {
           name
           category_name
         }
-        viewer {
+        user {
           name
           groups {
             id

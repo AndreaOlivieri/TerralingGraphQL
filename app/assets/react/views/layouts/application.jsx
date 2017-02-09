@@ -61,7 +61,7 @@ export default class Application extends React.Component {
               %a(href="/groups/user")
                 Groups
                 %span.label.label-success.pull-right
-                  {this.props.data.viewer.groups.length}
+                  {this.props.data.user.groups.length}
             %li
               %a(href="/users/sign_out")
                 Sign out
@@ -92,7 +92,7 @@ export default class Application extends React.Component {
     return (~
       %a.compact(href={user_icon_path})
         %p(style={{marginBottom: '0'}})
-          {this.props.data.viewer.name}
+          {this.props.data.user.name}
         {user_icon}
     ~)
   }
@@ -144,14 +144,14 @@ export default class Application extends React.Component {
 
   _group_membership_path_if_any(group){
     if (this._is_user_a_member_of(group)) {
-      return "/groups/"+group.id+"/membership/"+this.props.data.viewer.memberships[0].id;
+      return "/groups/"+group.id+"/membership/"+this.props.data.user.memberships[0].id;
     } else {
       return "/groups/"+group.id+"/memberships";
     }
   }
 
   _is_user_a_member_of(group){
-    return this.props.data.viewer.groups.some(function(element, index, array) {
+    return this.props.data.user.groups.some(function(element, index, array) {
       return group.id == element.id;
     })
   }
@@ -173,7 +173,7 @@ export default class Application extends React.Component {
   }
 
   _is_user_an_admin(){
-    return this.props.data.viewer.memberships.level == "admin"
+    return this.props.data.user.memberships.level == "admin"
   }
 
 };

@@ -408,6 +408,20 @@
               "deprecationReason": null
             },
             {
+              "name": "user",
+              "description": null,
+              "args": [
+
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "version",
               "description": null,
               "args": [
@@ -416,20 +430,6 @@
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "viewer",
-              "description": null,
-              "args": [
-
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Viewer",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -682,8 +682,8 @@
         },
         {
           "kind": "OBJECT",
-          "name": "Viewer",
-          "description": "Viewer type",
+          "name": "User",
+          "description": "User type",
           "fields": [
             {
               "name": "access_level",

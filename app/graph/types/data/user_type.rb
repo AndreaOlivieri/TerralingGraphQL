@@ -1,6 +1,6 @@
-ViewerType = GraphQL::ObjectType.define do
-  name "Viewer"
-  description "Viewer type"
+UserType = GraphQL::ObjectType.define do
+  name "User"
+  description "User type"
 
   field :id, types.ID, hash_key: "id"
   field :name, types.String, hash_key: "name"
@@ -26,7 +26,7 @@ ViewerType = GraphQL::ObjectType.define do
 
     resolve -> (obj, args, ctx) {
       user_id = obj["id"].to_s
-      GraphqlUtils.get_request("graphql/viewer/"+user_id+"/memberships").map {|x| x['membership']}
+      GraphqlUtils.get_request("graphql/user/"+user_id+"/memberships").map {|x| x['membership']}
     }
   end
 
@@ -35,7 +35,7 @@ ViewerType = GraphQL::ObjectType.define do
 
     resolve -> (obj, args, ctx) {
       user_id = obj["id"].to_s
-      GraphqlUtils.get_request("graphql/viewer/"+user_id+"/groups").map {|x| x['group']}
+      GraphqlUtils.get_request("graphql/user/"+user_id+"/groups").map {|x| x['group']}
     }
   end
 

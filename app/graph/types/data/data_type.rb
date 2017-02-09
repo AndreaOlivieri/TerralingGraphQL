@@ -34,11 +34,11 @@ DataType = GraphQL::ObjectType.define do
     }
   end
 
-  field :viewer, hash_key: :viewer do
-    type ViewerType
+  field :user, hash_key: :user do
+    type UserType
 
     resolve -> (obj, args, ctx) {
-      GraphqlUtils.get_request("graphql/viewer")['user']
+      GraphqlUtils.get_request("graphql/user")['user']
     }
   end
 
