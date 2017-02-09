@@ -3,17 +3,16 @@ import Relay from 'react-relay';
 import { Link } from 'react-router';
 import Application from '../layouts/application';
 
-class ReactComponent extends React.Component {
+class HomeComponent extends React.Component {
 
   componentDidMount() {
     document.title = "Home";
   }
 
   render() {
+    console.log(this.props.data);
     return (
-      <Application  version={this.props.data.version}
-                    group={this.props.data.group}
-                    groups={this.props.data.groups}>
+      <Application data={this.props.data}>
         {this._page_content()}
       </Application>
     );
@@ -184,24 +183,41 @@ class ReactComponent extends React.Component {
 
 };
 
-export default Relay.createContainer(ReactComponent, {
+var HomeContainer = Relay.createContainer(HomeComponent, {
   initialVariables: {
-    group_id: 1
+    group_id: null
   },
   fragments: {
     data: () => Relay.QL`
       fragment on Data {
         version
         group(group_id: $group_id) {
+          id
           name
+          category_name
         }
-        viewer{
+        viewer {
           name
-          groups{
+          groups {
+            id
             name
+            category_name
+          }
+          memberships {
+            id
+            level
           }
         }
       }
     `
   }
 });
+
+function homePrepareParams(params, {location}){
+  const { group_id } = location.query;
+  return {
+    group_id: group_id || null
+  };
+}
+
+export {HomeContainer, homePrepareParams}

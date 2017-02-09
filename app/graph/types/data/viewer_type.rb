@@ -25,8 +25,8 @@ ViewerType = GraphQL::ObjectType.define do
     type MembershipType.to_list_type
 
     resolve -> (obj, args, ctx) {
-      user_id = obj["id"]
-      GraphqlUtils.get_request("graphql/viewer/"+user_id.to_s+"/memberships").map {|x| x['membership']}
+      user_id = obj["id"].to_s
+      GraphqlUtils.get_request("graphql/viewer/"+user_id+"/memberships").map {|x| x['membership']}
     }
   end
 
@@ -34,22 +34,9 @@ ViewerType = GraphQL::ObjectType.define do
     type GroupType.to_list_type
 
     resolve -> (obj, args, ctx) {
-      user_id = obj["id"]
-      GraphqlUtils.get_request("graphql/viewer/"+user_id.to_s+"/groups").map {|x| x['group']}
+      user_id = obj["id"].to_s
+      GraphqlUtils.get_request("graphql/viewer/"+user_id+"/groups").map {|x| x['group']}
     }
   end
 
-end
-
-MembershipType = GraphQL::ObjectType.define do
-  name "Membership"
-  description "Membership type"
-
-  field :id, types.Int, hash_key: "id"
-  field :member_id, types.Int, hash_key: "member_id"
-  field :group_id, types.Int, hash_key: "group_id"
-  field :level, types.String, hash_key: "level"
-  field :created_at, types.String, hash_key: "created_at"
-  field :updated_at, types.String, hash_key: "updated_at"
-  field :creator_id, types.Int, hash_key: "creator_id"
 end

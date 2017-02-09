@@ -5,7 +5,6 @@ import { Link } from 'react-router';
 export default class Application extends React.Component {
 
   render() {
-
     return (~
       .
         #header.navbar.navbar-fixed-top.navbar-inverse(role="navigation")
@@ -28,7 +27,7 @@ export default class Application extends React.Component {
           {this.props.children}
         #footer
           %p
-            \&copy; 2013 terraling.com, Version: {this.props.version}
+            \&copy; 2013 terraling.com, Version: {this.props.data.version}
             %br/
             10 Washington Place, New York, NY 10003 .
             All Rights Reserved
@@ -62,7 +61,7 @@ export default class Application extends React.Component {
               %a(href="/groups/user")
                 Groups
                 %span.label.label-success.pull-right
-                  {this._current_user()["memberships"]["size"]}
+                  {this.props.data.viewer.groups.length}
             %li
               %a(href="/users/sign_out")
                 Sign out
@@ -81,7 +80,7 @@ export default class Application extends React.Component {
   _dropdown_jsx(){
     let user_icon;
     let user_icon_path = '';
-    let group = this.props.group;
+    let group = this.props.data.group;
 
     if (group) {
       user_icon = this._user_icon_by_group_jsx(group);
@@ -93,47 +92,43 @@ export default class Application extends React.Component {
     return (~
       %a.compact(href={user_icon_path})
         %p(style={{marginBottom: '0'}})
-          {this._current_user()["name"]}
+          {this.props.data.viewer.name}
         {user_icon}
     ~)
   }
 
   _user_icon_by_group_jsx(group){
-    if(this._current_user()["admin"]){
+    if(this._is_user_an_admin()) {
       return (~
         .col-md-.nav-status
           Site Admin
       ~)
-    } else if (this._current_user_administrated_groups(group)) {
+    } else if (this._is_user_admin_of(group)) {
       return (~
         .col-md-.nav-status
           %i.fa.fa-group
             Group Admin
       ~)
-    } else if (this._current_user_member_of(group)) {
-      let icon_expert;
-      if (this._current_user_is_expert(group)) {
-        icon_expert = (~
-          .
+    } else if (this._is_user_member_of(group)) {
+      if (this._is_user_expert_of(group)) {
+        return (~
+          .col-md-.nav-status
             %i.fa.fa-certificate
             Expert
         ~)
       } else {
-        icon_expert = (~
-          .
+        return (~
+          .col-md-.nav-status
             %i.fa.fa-user
             Member
         ~)
       }
-      return (~
-        .col-md-.nav-status
-          {icon_expert}
-      ~)
     }
+    return;
   }
 
   _user_icon_jsx(){
-    if (this._current_user()["admin"]) {
+    if (this._is_user_an_admin()) {
       return (~
         .col-md-.nav-status
           Site Admin
@@ -148,36 +143,37 @@ export default class Application extends React.Component {
   }
 
   _group_membership_path_if_any(group){
-    // membership = @group.membership_for(current_user)
-    // membership.present? ? group_membership_path(@group, membership) : group_memberships_path(@group)
-    return "#"
+    if (this._is_user_a_member_of(group)) {
+      return "/groups/"+group.id+"/membership/"+this.props.data.viewer.memberships[0].id;
+    } else {
+      return "/groups/"+group.id+"/memberships";
+    }
+  }
+
+  _is_user_a_member_of(group){
+    return this.props.data.viewer.groups.some(function(element, index, array) {
+      return group.id == element.id;
+    })
   }
 
   _user_signed_in(){
     return true;
   }
 
-  _current_user_member_of(group){
+  _is_user_member_of(group){
     return true;
   }
 
-  _current_user_administrated_groups(group){
+  _is_user_expert_of(group){
+    return true;
+  }
+
+  _is_user_admin_of(group){
     return false;
   }
 
-  _current_user_is_expert(group){
-    return true;
-  }
-
-  _current_user() {
-    return {
-      name: "Andrea",
-      admin: false,
-      memberships: {
-        size: 5
-      },
-      groups: [1,2]
-    }
+  _is_user_an_admin(){
+    return this.props.data.viewer.memberships.level == "admin"
   }
 
 };
