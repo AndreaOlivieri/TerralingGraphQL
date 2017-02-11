@@ -1,0 +1,4 @@
+{{#headers}}{{#cross_property}}{{cross_property}},{{/cross_property}}{{#cross_value}}{{cross_value}},{{/cross_value}}{{/headers}}{{#header.count}}{{header.count}}{{/header.count}}
+{{#rows}}
+{{#pair}}{{#cross_property}}{{cross_property}},{{/cross_property}}{{#cross_value}}{{cross_value}},{{/cross_value}}{{/pair}}{{#count}}{{count.text}}{{/count}}
+{{/rows}}

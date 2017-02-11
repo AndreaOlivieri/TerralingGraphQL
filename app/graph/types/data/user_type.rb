@@ -30,13 +30,4 @@ UserType = GraphQL::ObjectType.define do
     }
   end
 
-  field :groups, hash_key: "groups" do
-    type GroupType.to_list_type
-
-    resolve -> (obj, args, ctx) {
-      user_id = obj["id"].to_s
-      GraphqlUtils.get_request("graphql/user/"+user_id+"/groups").map {|x| x['group']}
-    }
-  end
-
 end

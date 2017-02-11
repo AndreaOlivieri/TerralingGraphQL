@@ -1,0 +1,3 @@
+{{^header}}
+#similarity_tree
+{{/header}}

@@ -12,8 +12,19 @@ gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
+# # experimental
+gem "alphabetical_paginate", :git => "git://github.com/dej611/alphabetical_paginate.git"
+# replacement for native alert and confirm dialogs
+gem 'bootbox-rails'
+# d3js gem -> takes care about updating the JS file
+gem 'd3-rails'
+# async.js gem
+gem 'async-rails'
+
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
+# # jQuery UI
+gem 'jquery-ui-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -34,6 +45,9 @@ gem 'bootstrap-sass'
 # leaflet gem
 gem 'leaflet-rails'
 
+# # Add Modernizr to dynamically run HTML5 checks and load JS polyfills conditionally
+gem 'modernizr-rails'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -53,6 +67,11 @@ gem 'font-awesome-sass'
 gem 'sass-rails'
 # # Use Twitter Typeahead
 gem 'twitter-typeahead-rails'
+
+gem "hogan_assets"
+
+# Advances Editor for Property descriptions
+gem 'tinymce-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

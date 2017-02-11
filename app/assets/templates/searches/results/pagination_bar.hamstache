@@ -1,0 +1,33 @@
+%ul#pagination_top.pagination
+  {{#prev.disabled}}
+  %li.disabled#page-prev
+    %span Prev
+  {{/prev.disabled}}
+  {{^prev.disabled}}
+  %li
+    %a#page-prev{:href=> "#" } Prev
+  {{/prev.disabled}}
+  {{#pages}}
+  {{#current}}
+  %li.active{:id => "current-page-{{number}}"}
+    %span {{number}}
+  {{/current}}
+  {{^current}}
+  {{#gap}}
+  %li
+    %span &hellip;
+  {{/gap}}
+  {{^gap}}
+  %li
+    %a{:href => "#", :id => "page-{{number}}" } {{number}}
+  {{/gap}}
+  {{/current}}
+  {{/pages}}
+  {{#next.disabled}}
+  %li#page-next.disabled
+    %span Next
+  {{/next.disabled}}
+  {{^next.disabled}}
+  %li
+    %a#page-next{:href=> "#" } Next
+  {{/next.disabled}}

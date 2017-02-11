@@ -1,0 +1,6 @@
+{{#errors}}
+%ul#error-messages
+  {{#errors.full-messages}}
+  %li {{this}}
+  {{/errors.full-messages}}
+{{/errors}}

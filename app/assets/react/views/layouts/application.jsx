@@ -36,12 +36,14 @@ export default class Application extends React.Component {
 
   // = render :partial => 'layouts/group_nav_bar' unless Settings.in_preview
   _group_nav_bar_jsx(){
-    return (~
-      %ul.nav.navbar-nav
-    ~)
+    if (!this.props.data.in_preview) {
+      return (~
+        %ul.nav.navbar-nav
+      ~)
+    } else {
+      return;
+    }
   }
-
-
 
 
 
@@ -61,7 +63,7 @@ export default class Application extends React.Component {
               %a(href="/groups/user")
                 Groups
                 %span.label.label-success.pull-right
-                  {this.props.data.user.groups.length}
+                  {this._user_groups().length}
             %li
               %a(href="/users/sign_out")
                 Sign out
@@ -143,37 +145,50 @@ export default class Application extends React.Component {
   }
 
   _group_membership_path_if_any(group){
-    if (this._is_user_a_member_of(group)) {
-      return "/groups/"+group.id+"/membership/"+this.props.data.user.memberships[0].id;
+    let membership = this._get_membership_from(group);
+    if (membership) {
+      return "/groups/"+group.id+"/membership/"+membership.id;
     } else {
       return "/groups/"+group.id+"/memberships";
     }
   }
 
-  _is_user_a_member_of(group){
-    return this.props.data.user.groups.some(function(element, index, array) {
-      return group.id == element.id;
-    })
+  _get_membership_from(group){
+    let memberships = this.props.data.user.memberships.filter(function(element) {
+      return group.id == element.group.id;
+    });
+
+    return memberships[0];
   }
 
   _user_signed_in(){
-    return true;
+    return this.props.data.user != null;
+  }
+
+  _user_groups(){
+    return this.props.data.user.memberships.map(function(index, elem) {
+      return elem.group;
+    });
   }
 
   _is_user_member_of(group){
-    return true;
+    return this.props.data.user.memberships.some(function(element, index, array){
+      return element.group.id == group.id;
+    });
   }
 
   _is_user_expert_of(group){
-    return true;
+    // to do
+    return false
   }
 
   _is_user_admin_of(group){
-    return false;
+    let membership = this._get_membership_from(group);
+    return membership.level == "admin"
   }
 
   _is_user_an_admin(){
-    return this.props.data.user.memberships.level == "admin"
+    return this.props.data.user.access_level == "admin"
   }
 
 };

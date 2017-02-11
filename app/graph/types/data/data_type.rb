@@ -2,10 +2,11 @@ DataType = GraphQL::ObjectType.define do
   name "Data"
   description "Data type"
 
-  field :test, hash_key: :test do
-    type types.String
+  field :in_preview, hash_key: :in_preview do
+    type types.Boolean
+
     resolve -> (obj, args, ctx) {
-      "test riuscito!!"
+      GraphqlUtils.get_request("graphql/in_preview") == "true"
     }
   end
 

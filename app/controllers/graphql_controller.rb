@@ -8,4 +8,8 @@ class GraphqlController < ApplicationController
     query = GraphqlSchema.execute(params[:query], variables: params[:variables])
     render json: query
   end
+
+  def groups_list
+    render json: GraphqlUtils.get_request("groups/list")
+  end
 end

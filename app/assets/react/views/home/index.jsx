@@ -6,7 +6,6 @@ import Application from '../layouts/application';
 class HomeComponent extends React.Component {
 
   componentDidMount() {
-    document.title = "Home";
   }
 
   render() {
@@ -19,8 +18,29 @@ class HomeComponent extends React.Component {
   }
 
   _page_content() {
-    let imgId = Math.floor((Math.random() * 11) + 1);
+    if (this.props.data.in_preview) {
+      document.title = "Preview";
+      return this._preview_page();
+    } else {
+      document.title = "Home";
+      let imgId = Math.floor((Math.random() * 11) + 1);
+      return this._home_page(imgId);
+    }
+  }
 
+  _preview_page() {
+    return (~
+      .
+        %h2 Terraling
+        %br/
+        %div Coming soon, an advanced linguistics search engine from the New York University Computer Science department.
+        %br/
+        %div
+          Send us an email at {<Link to="mailto:support@terraling.com">support@terraling.com</Link>} for more information.
+    ~)
+  }
+
+  _home_page(imgId) {
     return (~
       .
         #bigImage
@@ -190,22 +210,21 @@ var HomeContainer = Relay.createContainer(HomeComponent, {
   fragments: {
     data: () => Relay.QL`
       fragment on Data {
+        in_preview
         version
         group(group_id: $group_id) {
-          id
           name
           category_name
         }
         user {
           name
-          groups {
-            id
-            name
-            category_name
-          }
+          access_level
           memberships {
-            id
             level
+            group {
+              id
+              name
+            }
           }
         }
       }

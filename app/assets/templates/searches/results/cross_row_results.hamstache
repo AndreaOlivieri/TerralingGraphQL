@@ -1,0 +1,8 @@
+{{#rows}}
+.row
+  {{#.}}
+  .col-md-3
+    %a{ :href => "{{link}}", :class => "ling_in_the_row" } {{name}}
+  {{/.}}
+{{/rows}}
+
