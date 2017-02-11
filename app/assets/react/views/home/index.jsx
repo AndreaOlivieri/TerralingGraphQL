@@ -212,8 +212,17 @@ var HomeContainer = Relay.createContainer(HomeComponent, {
       fragment on Data {
         in_preview
         version
+        all_groups {
+          id
+          name
+        }
         group(group_id: $group_id) {
           name
+          category_name
+          ling0_name
+          ling1_name
+          depth_maximum
+          property_name
           category_name
         }
         user {

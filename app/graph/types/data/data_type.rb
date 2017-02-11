@@ -27,11 +27,11 @@ DataType = GraphQL::ObjectType.define do
     }
   end
 
-  field :groups, hash_key: :groups do
+  field :all_groups, hash_key: :all_groups do
     type GroupType.to_list_type
 
     resolve -> (obj, args, ctx) {
-      GraphqlUtils.get_request("graphql/groups").map {|x| x['group']}
+      GraphqlUtils.get_request("graphql/all_groups").map {|x| x['group']}
     }
   end
 

@@ -36,20 +36,132 @@ export default class Application extends React.Component {
 
   // = render :partial => 'layouts/group_nav_bar' unless Settings.in_preview
   _group_nav_bar_jsx(){
-    if (!this.props.data.in_preview) {
+    if(!this.props.data.in_preview && this._is_new_record_group()) {
       return (~
         %ul.nav.navbar-nav
+          %li#group_id.dropdown.black-dropdown
+            %a#group-link.group.dropdown-toggle(href={"/group/"+this.props.group.id})
+              {this.props.group.name}
+              %b.caret
+            {this._dropdown_menu_groups_jsx()}
+          {this._nav_bar_search_section_jsx()}
+          {this._nav_bar_language_section_jsx()}
+          {this._nav_bar_property_section_jsx()}
+          {this._nav_bar_members_section_jsx()}
+      ~)
+    } else if(!this.props.data.in_preview && this._user_groups().length > 0) {
+      let groups = this.props.data.all_groups.map(function(elem, index) {
+        return (~
+          %li(key={"menu_group"+elem.id})
+            %a(href={"/group/"+elem.id})
+              {elem.name}
+        ~);
+      });
+      return (~
+        %ul.nav.navbar-nav
+          %li.dropdown.black-dropdown
+            %a(href="/groups" style={{color: "white"}})
+              %i.fa.fa-bars
+              Pick a Dataset
+              %b.caret
+            %ul.dropdown-menu.medium-height(aria-labelledby="dLabel" role="menu")
+              {groups}
       ~)
     } else {
       return;
     }
   }
 
+  _dropdown_menu_groups_jsx(){
 
+    let groups = [];
+    this.props.data.all_groups.forEach(function(elem, index, arr) {
+      if (elem.id != this.props.data.group.id) {
+        groups.push((~
+          %li(role="presentation" key={"presentation_"+elem.id})
+            %a(href={"/group/"+elem.id})
+              {elem.name}
+        ~));
+      }
+    }, this);
 
+    return (~
+      %ul.dropdown-menu(aria-labelledby= "dLabel" role= "menu")
+        {groups}
+    ~);
+  }
 
+  _nav_bar_search_section_jsx(){
+    if (this._user_signed_in()) {
+      return (~
+        %li.dropdown.black-dropdown
+          %a(href={"/groups/"+this.props.group.id+"/searches/new"})
+            Search
+          %ul.dropdown-menu(aria-labelledby="dLabel" role="menu")
+            %li
+              %a(href={"/groups/"+this.props.group.id+"/searches/new"})
+                Advanced Search
+            %li
+              %a(href={"/groups/"+this.props.group.id+"/searches"})
+                History
+      ~);
+    } else {
+      return(~
+        %a(href={"/groups/"+this.props.group.id+"/searches/new"}) Search
+      ~);
+    }
+  }
 
+  _nav_bar_language_section_jsx(){
 
+    if (this._has_depth(this.props.data.group)){
+      return (~
+        %li.dropdown.black-dropdown
+          %a(href={"/groups/"+this.props.data.group.id+"/lings/depth/0"})
+            {this.props.data.group.ling0_name}
+            %b.caret
+          %ul.dropdown-menu(aria-labelledby="dLabel" role="menu")
+            %li
+              %a(href={"/groups/"+this.props.data.group.id+"/lings/depth/0"})
+                {this.props.data.group.ling0_name}
+            %li
+              %a(href={"/groups/"+this.props.data.group.id+"/lings/depth/1"})
+                {this.props.data.group.ling1_name}
+      ~);
+    } else {
+      return (~
+        %li
+          %a(href={"/groups/"+this.props.data.group.id+"/lings/depth/0"})
+            {this.props.data.group.ling0_name}
+      ~);
+    }
+  }
+
+  _nav_bar_property_section_jsx(){
+    return (~
+      %li.dropdown.black-dropdown
+        %a(href={"/group/"+this.props.data.group.id+"/properties"})
+          {this.props.data.group.property_name}
+          %b.caret
+        %ul.dropdown-menu(aria-labelledby="dLabel" role="menu")
+          %li
+            %a(href={"/group/"+this.props.data.group.id+"/categories"})
+              {this.props.data.group.category_name}
+    ~);
+  }
+
+  _nav_bar_members_section_jsx(){
+    return (~
+      %li.dropdown.black-dropdown
+        %a(href={"/groups/"+this.props.data.group.id+"/memberships/contributors"})
+          Contributors
+          %b.caret
+        %ul.dropdown-menu(aria-labelledby="dLabel" role="menu")
+          %li
+            %a(href={"/group/"+this.props.data.group.id+"/memberships"})
+              All Members
+    ~);
+  }
 
   // = render :partial => 'layouts/status_bar'
   _status_bar_jsx(){
@@ -84,7 +196,7 @@ export default class Application extends React.Component {
     let user_icon_path = '';
     let group = this.props.data.group;
 
-    if (group) {
+    if (this._is_new_record_group()) {
       user_icon = this._user_icon_by_group_jsx(group);
       user_icon_path = this._group_membership_path_if_any(group);
     } else {
@@ -166,7 +278,7 @@ export default class Application extends React.Component {
   }
 
   _user_groups(){
-    return this.props.data.user.memberships.map(function(index, elem) {
+    return this.props.data.user.memberships.map(function(elem, index) {
       return elem.group;
     });
   }
@@ -189,6 +301,14 @@ export default class Application extends React.Component {
 
   _is_user_an_admin(){
     return this.props.data.user.access_level == "admin"
+  }
+
+  _is_new_record_group(){
+    return this.props.data.group;
+  }
+
+  _has_depth(group){
+    return group.depth_maximum >= 1;
   }
 
 };
